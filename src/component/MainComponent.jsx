@@ -15,7 +15,7 @@ class MainComponent extends Component {
     }
 
     getApi = () => {
-        Axios.get("http://localhost:8080/api/test")
+        Axios.get("http://localhost:8080/beauty-api/api/test")
             .then(res => {
                 console.log(res);
                 this.setState({
