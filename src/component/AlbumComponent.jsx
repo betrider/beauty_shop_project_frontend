@@ -116,10 +116,10 @@ export default function Album() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      미용사진 제목
+                      제목
                     </Typography>
                     <Typography>
-                      미용사진 내용
+                      내용
                     </Typography>
                   </CardContent>
                   <CardActions>

@@ -1,5 +1,5 @@
 import React, {Component} from "react"; 
-import logo from '../icon1.png';
+import logo from '../icon2.png';
 import {Navbar,Nav,Form,FormControl,Button,NavDropdown} from "react-bootstrap"; 
 import {BrowserRouter as Router, Route} from "react-router-dom"; 
 import MainComponent from './MainComponent' 
@@ -13,9 +13,8 @@ import SignInSideComponent from './SignInSideComponent'
 class TopMenuComponent extends Component { 
     render() { 
         return ( 
-            
         <Router>
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="primary" variant="dark">
                 <Navbar.Brand href="/main">
                 <img
                     alt=""
@@ -31,10 +30,9 @@ class TopMenuComponent extends Component {
                     <Nav.Link href="/main">홈</Nav.Link>
                     <Nav.Link href="/PriceListComponent">예약</Nav.Link>
                     <Nav.Link href="/PriceListComponent">오시는길</Nav.Link>
-                    <Nav.Link href="/PriceListComponent">리얼후기</Nav.Link>
                     <Nav.Link href="/AlbumComponent">갤러리</Nav.Link>
                     <Nav.Link href="/PriceListComponent">소식</Nav.Link>
-                    <Nav.Link href="/PriceListComponent">가격표</Nav.Link>
+                    <Nav.Link href="/PriceListComponent">요금표</Nav.Link>
                     <Nav.Link href="/ScheduleComponent">스케줄</Nav.Link>
                     {/* <Nav.Link href="/SignInComponent">SignIn</Nav.Link>
                     <Nav.Link href="/SignUpComponent">SignUp</Nav.Link>
@@ -46,13 +44,14 @@ class TopMenuComponent extends Component {
                         <NavDropdown.Divider />
                         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown> */}
+                    
                 </Nav>
-                <Form inline>
+                {/* <Form inline>
                     <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                     <Button variant="outline-light">Search</Button>
-                </Form>
+                </Form> */}
                 <Nav>
-                    <Nav.Link href="/SignInComponent">SignIn</Nav.Link>
+                    <Nav.Link href="/SignInComponent">로그인</Nav.Link>
                 </Nav>
             </Navbar>
             
