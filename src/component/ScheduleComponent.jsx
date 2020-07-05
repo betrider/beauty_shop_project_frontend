@@ -1,12 +1,12 @@
 import React, {Component} from "react"; 
 
-class DashboardComponent extends Component { 
+class ScheduleComponent extends Component { 
     render() { 
         return( 
             <div>
-                Dashboard 페이지 
+                스케줄 페이지 
             </div> 
         ) 
     } 
 } 
-export default DashboardComponent
+export default ScheduleComponent
