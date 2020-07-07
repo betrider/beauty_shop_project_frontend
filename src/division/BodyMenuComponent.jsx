@@ -12,7 +12,7 @@ class BodyMenuComponent extends Component {
     render() { 
         return ( 
             <Router> 
-                <Route exact="/" component={MainComponent} /> 
+                <Route path="/" exact component={MainComponent} /> 
                 <Route path="/AlbumComponent" component={AlbumComponent} /> 
                 <Route path="/PriceListComponent" component={PriceListComponent} /> 
                 <Route path="/SignInComponent" component={SignInComponent} /> 
