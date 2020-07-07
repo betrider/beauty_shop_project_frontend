@@ -1,0 +1,8 @@
+.bg-primary {
+    background-color: darkgray !important;
+    font-family: 'Noto Sans KR' !important;
+}
+
+.fix-size {
+    min-width: 10px !important;
+}
