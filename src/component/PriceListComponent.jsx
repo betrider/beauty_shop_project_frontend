@@ -66,7 +66,7 @@ export default function PriceListComponent() {
 
   return (
       <div>
-        <Container fixed>
+        <Container maxWidth="lg">
           <br></br>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="customized table">
