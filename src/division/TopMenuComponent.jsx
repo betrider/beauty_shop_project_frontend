@@ -1,22 +1,13 @@
 import React, {Component} from "react"; 
 import logo from '../image/myAgit_logo.jpg';
 import {Navbar,Nav,Form,FormControl,Button,NavDropdown} from "react-bootstrap"; 
-import {BrowserRouter as Router, Route} from "react-router-dom"; 
-import MainComponent from './MainComponent' 
-import AlbumComponent from './AlbumComponent' 
-import PriceListComponent from './PriceListComponent' 
-import ScheduleComponent from './ScheduleComponent' 
-import SignInComponent from './SignInComponent'
-import SignUpComponent from './SignUpComponent'
-import SignInSideComponent from './SignInSideComponent'
 import '../css/custom.css'
 
 class TopMenuComponent extends Component { 
     render() { 
         return ( 
-        <Router>
             <Navbar collapseOnSelect expand="lg" className="bg-primary">
-                <Navbar.Brand href="/main">
+                <Navbar.Brand href="/">
                     <img
                         alt=""
                         src={logo}
@@ -29,7 +20,7 @@ class TopMenuComponent extends Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="/main">홈</Nav.Link>
+                        <Nav.Link href="/">홈</Nav.Link>
                         <Nav.Link href="/PriceListComponent">예약</Nav.Link>
                         <Nav.Link href="/PriceListComponent">오시는길</Nav.Link>
                         <Nav.Link href="/AlbumComponent">갤러리</Nav.Link>
@@ -49,15 +40,6 @@ class TopMenuComponent extends Component {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            
-            <Route path="/main" component={MainComponent} /> 
-            <Route path="/AlbumComponent" component={AlbumComponent} /> 
-            <Route path="/PriceListComponent" component={PriceListComponent} /> 
-            <Route path="/SignInComponent" component={SignInComponent} /> 
-            <Route path="/SignUpComponent" component={SignUpComponent} /> 
-            <Route path="/SignInSideComponent" component={SignInSideComponent} /> 
-            <Route path="/ScheduleComponent" component={ScheduleComponent} /> 
-        </Router> 
         ) 
     } 
 } 
