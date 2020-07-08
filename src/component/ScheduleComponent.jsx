@@ -3,6 +3,7 @@ import {
   ViewState,
   EditingState,
   GroupingState,
+  IntegratedEditing,
   IntegratedGrouping,
 } from '@devexpress/dx-react-scheduler';
 import {
@@ -13,11 +14,11 @@ import {
   Toolbar,
   DateNavigator,
   ViewSwitcher,
-  AllDayPanel,
   AppointmentTooltip,
   AppointmentForm,
   GroupingPanel,
   Resources,
+  ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { connectProps } from '@devexpress/dx-react-core';
 import { withStyles, makeStyles, fade } from '@material-ui/core/styles';
@@ -237,22 +238,6 @@ const WeekViewDayScaleCell = withStyles(groupingStyles, { name: 'WeekViewDayScal
     />
   );
 });
-const AllDayCell = withStyles(groupingStyles, { name: 'AllDayCell' })(({
-  groupingInfo, classes, ...restProps
-}) => {
-  const groupId = groupingInfo[0].id;
-  return (
-    <AllDayPanel.Cell
-      className={classNames({
-        [classes.cellLowPriority]: groupId === 1,
-        [classes.cellMediumPriority]: groupId === 2,
-        [classes.cellHighPriority]: groupId === 3,
-      })}
-      groupingInfo={groupingInfo}
-      {...restProps}
-    />
-  );
-});
 const GroupingPanelCell = withStyles(groupingStyles, { name: 'GroupingPanelCell' })(({
   group, classes, ...restProps
 }) => {
@@ -457,6 +442,7 @@ export default class ScheduleComponent extends React.PureComponent {
         <Scheduler
           data={filterTasks(data, currentPriority)}
           height={660}
+          locale="ko-KR"
         >
           <ViewState
             currentDate={currentDate}
@@ -464,9 +450,11 @@ export default class ScheduleComponent extends React.PureComponent {
             onCurrentViewNameChange={this.currentViewNameChange}
             onCurrentDateChange={this.currentDateChange}
           />
+          
           <EditingState
             onCommitChanges={this.commitChanges}
           />
+
           <GroupingState
             grouping={grouping}
           />
@@ -503,26 +491,33 @@ export default class ScheduleComponent extends React.PureComponent {
             timeTableCellComponent={WeekViewTimeTableCell}
             dayScaleCellComponent={WeekViewDayScaleCell}
           />
-
-          <Appointments />
-          <Resources
-            data={resources}
-          />
-          <IntegratedGrouping />
-
-          <GroupingPanel
-            cellComponent={GroupingPanelCell}
-          />
+          
           <Toolbar flexibleSpaceComponent={this.flexibleSpace} />
           <DateNavigator />
           <ViewSwitcher />
+          
+          <Appointments />
+
+          <Resources
+            data={resources}
+          />
+
+          <IntegratedEditing />
+          <ConfirmationDialog />
+
+          <IntegratedGrouping />
+          <GroupingPanel
+            cellComponent={GroupingPanelCell}
+          />
+
           <AppointmentTooltip
             contentComponent={TooltipContent}
             showOpenButton
             showCloseButton
             showDeleteButton
           />
-          <AppointmentForm />
+          <AppointmentForm/>
+          
         </Scheduler>
       </Container>
     );
