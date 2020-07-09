@@ -27,7 +27,7 @@ import LowPriority from '@material-ui/icons/LowPriority';
 import Lens from '@material-ui/icons/Lens';
 import Event from '@material-ui/icons/Event';
 import AccessTime from '@material-ui/icons/AccessTime';
-import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
@@ -36,6 +36,47 @@ import classNames from 'clsx';
 
 import { priorities } from './demo-data/tasks';
 import { data as tasks } from './demo-data/grouping';
+
+const ConfirmationDialogMessage = {
+  discardButton : '네',
+  deleteButton : '네',
+  cancelButton : '아니오',
+  confirmDeleteMessage : '일정을 삭제하시겠습니까?',
+  confirmCancelMessage : '수정된 작업을 취소하시겠습니까?'
+};
+
+const AppointmentFormMessage = {
+  detailsLabel:'내용',
+  allDayLabel:'매일',
+  titleLabel:'제목',
+  commitCommand:'저장',
+  moreInformationLabel:'상세내용',
+  repeatLabel:'반복 설정',
+  notesLabel:'',
+  never:'종료 안함',
+  daily:'매일',
+  weekly:'매주',
+  monthly:'매달',
+  yearly:'매년',
+  repeatEveryLabel:'반복 주기',
+  daysLabel:'일',
+  endRepeatLabel:'반복 종료 시점',
+  onLabel:'종료 횟수',
+  afterLabel:'종료 날짜',
+  occurrencesLabel:'회',
+  // weeksOnLabel:'13',
+  // monthsLabel:'14',
+  // ofEveryMonthLabel:'15',
+  // theLabel:'16',
+  // firstLabel:'17',
+  // secondLabel:'18',
+  // thirdLabel:'19',
+  // fourthLabel:'20',
+  // lastLabel:'21',
+  // yearsLabel:'22',
+  // ofLabel:'23',
+  // everyLabel:'24'
+};
 
 const grouping = [{
   resourceName: 'priorityId',
@@ -263,8 +304,8 @@ const GroupingPanelCell = withStyles(groupingStyles, { name: 'GroupingPanelCell'
 const PrioritySelectorItem = ({
   color, text: resourceTitle,
 }) => {
-  const text = resourceTitle || '모두선택';
-  const shortText = resourceTitle ? text.substring(0, 1) : 'All';
+  const text = resourceTitle || '모두';
+  const shortText = resourceTitle || '모두';
   const classes = usePrioritySelectorItemStyles({ color });
 
   return (
@@ -381,7 +422,7 @@ export default class ScheduleComponent extends React.PureComponent {
       currentPriority: 0,
       resources: [{
         fieldName: 'priorityId',
-        title: 'Priority',
+        title: '담당자',
         instances: priorities,
       }],
     };
@@ -436,9 +477,9 @@ export default class ScheduleComponent extends React.PureComponent {
     const {
       data, currentDate, currentViewName, currentPriority, resources,
     } = this.state;
-    
+
     return (
-      <Container maxWidth="lg">
+      <Paper>
         <Scheduler
           data={filterTasks(data, currentPriority)}
           height={660}
@@ -450,7 +491,7 @@ export default class ScheduleComponent extends React.PureComponent {
             onCurrentViewNameChange={this.currentViewNameChange}
             onCurrentDateChange={this.currentDateChange}
           />
-          
+
           <EditingState
             onCommitChanges={this.commitChanges}
           />
@@ -483,6 +524,7 @@ export default class ScheduleComponent extends React.PureComponent {
             endDayHour={19}
             intervalCount={4}
           />
+
           <WeekView
             startDayHour={9}
             endDayHour={19}
@@ -491,35 +533,35 @@ export default class ScheduleComponent extends React.PureComponent {
             timeTableCellComponent={WeekViewTimeTableCell}
             dayScaleCellComponent={WeekViewDayScaleCell}
           />
-          
-          <Toolbar flexibleSpaceComponent={this.flexibleSpace} />
-          <DateNavigator />
-          <ViewSwitcher />
-          
-          <Appointments />
 
+          <Appointments />
           <Resources
             data={resources}
           />
 
           <IntegratedEditing />
-          <ConfirmationDialog />
-
+          <ConfirmationDialog
+            messages={ConfirmationDialogMessage}
+          />
           <IntegratedGrouping />
+
           <GroupingPanel
             cellComponent={GroupingPanelCell}
           />
-
+          <Toolbar flexibleSpaceComponent={this.flexibleSpace} />
+          <DateNavigator />
+          <ViewSwitcher />
           <AppointmentTooltip
             contentComponent={TooltipContent}
             showOpenButton
             showCloseButton
             showDeleteButton
           />
-          <AppointmentForm/>
-          
+          <AppointmentForm
+            messages = {AppointmentFormMessage}
+          />
         </Scheduler>
-      </Container>
+      </Paper>
     );
   }
 }
