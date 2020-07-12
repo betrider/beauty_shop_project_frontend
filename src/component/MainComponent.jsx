@@ -28,7 +28,7 @@ class MainComponent extends Component {
     render() { 
         return( 
             <div>
-                Main 페이지 
+                Main 페이지
             </div> 
         ) 
     } 
