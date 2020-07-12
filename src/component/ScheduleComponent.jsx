@@ -416,46 +416,6 @@ const getDateFormat = (strDate) => {
   return new Date(year, month, date, hours, minutes, seconds)
 }
 
-const getApi = () => {
-  Axios.get("http://localhost:8080/api/schedule/get")
-      .then(res => {
-        for (let index = 0; index < res.data.length; index++) {
-          res.data[index].startDate = getDateFormat(res.data[index].startDate);
-          res.data[index].endDate = getDateFormat(res.data[index].endDate);
-        }
-        return res.data;
-      })
-      .catch(res => console.log(res))
-}
-
-const bbb = () => {
-  const ccc = [
-      {
-        title: '말티즈 미용',
-        priorityId: 1,
-        startDate: new Date(2020, 6, 11, 9, 0, 0),
-        endDate: new Date(2020, 6, 11, 12, 0, 0),
-      },{
-        title: '포메라니안 미용',
-        priorityId: 2,
-        startDate: new Date(2020, 6, 11, 10, 0, 0),
-        endDate: new Date(2020, 6, 11, 13, 0, 0),
-      },{
-        title: '푸들 미용',
-        priorityId: 1,
-        startDate: new Date(2020, 6, 12, 10, 0, 0),
-        endDate: new Date(2020, 6, 12, 12, 0, 0),
-      },{
-        title: '베들링턴 미용',
-        priorityId: 2,
-        startDate: new Date(2020, 6, 12, 12, 0, 0),
-        endDate: new Date(2020, 6, 12, 14, 0, 0),
-      }
-    ];
-
-  return ccc;
-}
-
 export default class ScheduleComponent extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -463,7 +423,7 @@ export default class ScheduleComponent extends React.PureComponent {
     this.state = {
       currentDate: today(),
       currentViewName: '1일 단위',
-      data: '',
+      data: [],
       currentPriority: 0,
       resources: [{
         fieldName: 'priorityId',
@@ -515,33 +475,16 @@ export default class ScheduleComponent extends React.PureComponent {
   }
 
   componentWillMount() {
-    const tasks = [
-      {
-        title: '말티즈 미용',
-        priorityId: 1,
-        startDate: new Date(2020, 6, 11, 9, 0, 0),
-        endDate: new Date(2020, 6, 11, 12, 0, 0),
-      },{
-        title: '포메라니안 미용',
-        priorityId: 2,
-        startDate: new Date(2020, 6, 11, 10, 0, 0),
-        endDate: new Date(2020, 6, 11, 13, 0, 0),
-      },{
-        title: '푸들 미용',
-        priorityId: 1,
-        startDate: new Date(2020, 6, 12, 10, 0, 0),
-        endDate: new Date(2020, 6, 12, 12, 0, 0),
-      },{
-        title: '베들링턴 미용',
-        priorityId: 2,
-        startDate: new Date(2020, 6, 12, 12, 0, 0),
-        endDate: new Date(2020, 6, 12, 14, 0, 0),
-      }
-    ];
-
-    const bb = getApi();
-
-    this.setState({data:tasks});
+    alert("componentWillMount")
+    Axios.get("http://localhost:8080/api/schedule/get")
+      .then(res => {
+        for (let index = 0; index < res.data.length; index++) {
+          res.data[index].startDate = getDateFormat(res.data[index].startDate);
+          res.data[index].endDate = getDateFormat(res.data[index].endDate);
+        }
+        this.setState({data:res.data});
+      })
+      .catch(res => console.log(res))
   }
 
   componentDidUpdate() {
