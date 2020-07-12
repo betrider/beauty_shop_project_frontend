@@ -6,7 +6,7 @@ import '../css/custom.css'
 class TopMenuComponent extends Component { 
     render() { 
         return ( 
-            <Navbar collapseOnSelect expand="lg" className="bg-primary">
+            <Navbar collapseOnSelect expand="lg" className="bg-primary" variant="dark">
                 <Navbar.Brand href="/">
                     <img
                         alt=""
@@ -22,7 +22,7 @@ class TopMenuComponent extends Component {
                     <Nav className="mr-auto">
                         <Nav.Link href="/">홈</Nav.Link>
                         <Nav.Link href="/PriceListComponent">예약</Nav.Link>
-                        <Nav.Link href="/PriceListComponent">오시는길</Nav.Link>
+                        <Nav.Link href="/testComponent">오시는길</Nav.Link>
                         <Nav.Link href="/AlbumComponent">갤러리</Nav.Link>
                         <Nav.Link href="/PriceListComponent">소식</Nav.Link>
                         <Nav.Link href="/PriceListComponent">요금표</Nav.Link>
