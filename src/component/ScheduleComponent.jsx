@@ -22,6 +22,7 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { connectProps } from '@devexpress/dx-react-core';
 import { withStyles, makeStyles, fade } from '@material-ui/core/styles';
+import { lightBlue, pink } from '@material-ui/core/colors';
 import PriorityHigh from '@material-ui/icons/PriorityHigh';
 import LowPriority from '@material-ui/icons/LowPriority';
 import Lens from '@material-ui/icons/Lens';
@@ -33,9 +34,12 @@ import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import classNames from 'clsx';
+import Axios from "axios";
 
-import { priorities } from './demo-data/tasks';
-import { data as tasks } from './demo-data/grouping';
+const priorities = [
+  { id: 1, text: '김정은', color: pink },
+  { id: 2, text: '이예은', color: lightBlue }
+];
 
 const ConfirmationDialogMessage = {
   discardButton : '네',
@@ -64,18 +68,6 @@ const AppointmentFormMessage = {
   onLabel:'종료 횟수',
   afterLabel:'종료 날짜',
   occurrencesLabel:'회',
-  // weeksOnLabel:'13',
-  // monthsLabel:'14',
-  // ofEveryMonthLabel:'15',
-  // theLabel:'16',
-  // firstLabel:'17',
-  // secondLabel:'18',
-  // thirdLabel:'19',
-  // fourthLabel:'20',
-  // lastLabel:'21',
-  // yearsLabel:'22',
-  // ofLabel:'23',
-  // everyLabel:'24'
 };
 
 const grouping = [{
@@ -362,9 +354,6 @@ const TooltipContent = ({
   if (appointmentData.priorityId === 2) {
     icon = <Event className={classes.icon} />;
   }
-  if (appointmentData.priorityId === 3) {
-    icon = <PriorityHigh className={classes.icon} />;
-  }
   return (
     <div className={classes.content}>
       <Grid container alignItems="flex-start" className={classes.titleContainer}>
@@ -411,14 +400,70 @@ const TooltipContent = ({
   );
 };
 
+const today = () => {
+  var today = new Date();
+  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  return date;
+}
+
+const getDateFormat = (strDate) => {
+  var year = strDate.substr(0,4);
+  var month = strDate.substr(4,2);
+  var date = strDate.substr(6,2);
+  var hours = strDate.substr(8,2);
+  var minutes = strDate.substr(10,2);
+  var seconds = strDate.substr(12,2);
+  return new Date(year, month, date, hours, minutes, seconds)
+}
+
+const getApi = () => {
+  Axios.get("http://localhost:8080/api/schedule/get")
+      .then(res => {
+        for (let index = 0; index < res.data.length; index++) {
+          res.data[index].startDate = getDateFormat(res.data[index].startDate);
+          res.data[index].endDate = getDateFormat(res.data[index].endDate);
+        }
+        return res.data;
+      })
+      .catch(res => console.log(res))
+}
+
+const bbb = () => {
+  const ccc = [
+      {
+        title: '말티즈 미용',
+        priorityId: 1,
+        startDate: new Date(2020, 6, 11, 9, 0, 0),
+        endDate: new Date(2020, 6, 11, 12, 0, 0),
+      },{
+        title: '포메라니안 미용',
+        priorityId: 2,
+        startDate: new Date(2020, 6, 11, 10, 0, 0),
+        endDate: new Date(2020, 6, 11, 13, 0, 0),
+      },{
+        title: '푸들 미용',
+        priorityId: 1,
+        startDate: new Date(2020, 6, 12, 10, 0, 0),
+        endDate: new Date(2020, 6, 12, 12, 0, 0),
+      },{
+        title: '베들링턴 미용',
+        priorityId: 2,
+        startDate: new Date(2020, 6, 12, 12, 0, 0),
+        endDate: new Date(2020, 6, 12, 14, 0, 0),
+      }
+    ];
+
+  return ccc;
+}
+
 export default class ScheduleComponent extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentDate: '2018-05-28',
+      currentDate: today(),
       currentViewName: '1일 단위',
-      data: tasks,
+      data: '',
       currentPriority: 0,
       resources: [{
         fieldName: 'priorityId',
@@ -467,6 +512,36 @@ export default class ScheduleComponent extends React.PureComponent {
       }
       return { data };
     });
+  }
+
+  componentWillMount() {
+    const tasks = [
+      {
+        title: '말티즈 미용',
+        priorityId: 1,
+        startDate: new Date(2020, 6, 11, 9, 0, 0),
+        endDate: new Date(2020, 6, 11, 12, 0, 0),
+      },{
+        title: '포메라니안 미용',
+        priorityId: 2,
+        startDate: new Date(2020, 6, 11, 10, 0, 0),
+        endDate: new Date(2020, 6, 11, 13, 0, 0),
+      },{
+        title: '푸들 미용',
+        priorityId: 1,
+        startDate: new Date(2020, 6, 12, 10, 0, 0),
+        endDate: new Date(2020, 6, 12, 12, 0, 0),
+      },{
+        title: '베들링턴 미용',
+        priorityId: 2,
+        startDate: new Date(2020, 6, 12, 12, 0, 0),
+        endDate: new Date(2020, 6, 12, 14, 0, 0),
+      }
+    ];
+
+    const bb = getApi();
+
+    this.setState({data:tasks});
   }
 
   componentDidUpdate() {
