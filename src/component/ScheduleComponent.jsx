@@ -8,12 +8,14 @@ import {
 } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
+  MonthView,
   WeekView,
   DayView,
   Appointments,
   Toolbar,
   DateNavigator,
   ViewSwitcher,
+  AllDayPanel,
   AppointmentTooltip,
   AppointmentForm,
   GroupingPanel,
@@ -41,12 +43,16 @@ const priorities = [
   { id: 2, text: '이예은', color: lightBlue }
 ];
 
+const AllDayPanelMessage = {
+  allDay : '매일',
+};
+
 const ConfirmationDialogMessage = {
   discardButton : '네',
   deleteButton : '네',
   cancelButton : '아니오',
   confirmDeleteMessage : '일정을 삭제하시겠습니까?',
-  confirmCancelMessage : '수정된 작업을 취소하시겠습니까?'
+  confirmCancelMessage : '수정된 작업을 취소하시겠습니까?',
 };
 
 const AppointmentFormMessage = {
@@ -271,6 +277,22 @@ const WeekViewDayScaleCell = withStyles(groupingStyles, { name: 'WeekViewDayScal
     />
   );
 });
+const AllDayCell = withStyles(groupingStyles, { name: 'AllDayCell' })(({
+  groupingInfo, classes, ...restProps
+}) => {
+  const groupId = groupingInfo[0].id;
+  return (
+    <AllDayPanel.Cell
+      className={classNames({
+        [classes.cellLowPriority]: groupId === 1,
+        [classes.cellMediumPriority]: groupId === 2,
+        [classes.cellHighPriority]: groupId === 3,
+      })}
+      groupingInfo={groupingInfo}
+      {...restProps}
+    />
+  );
+});
 const GroupingPanelCell = withStyles(groupingStyles, { name: 'GroupingPanelCell' })(({
   group, classes, ...restProps
 }) => {
@@ -422,7 +444,7 @@ export default class ScheduleComponent extends React.PureComponent {
 
     this.state = {
       currentDate: today(),
-      currentViewName: '1일 단위',
+      currentViewName: '1일',
       data: [],
       currentPriority: 0,
       resources: [{
@@ -468,6 +490,11 @@ export default class ScheduleComponent extends React.PureComponent {
           changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
       }
       if (deleted !== undefined) {
+        Axios.get("http://localhost:8080/api/schedule/delete/id/"+deleted)
+          .then(res => {
+            
+          })
+          .catch(res => console.log(res))
         data = data.filter(appointment => appointment.id !== deleted);
       }
       return { data };
@@ -475,13 +502,8 @@ export default class ScheduleComponent extends React.PureComponent {
   }
 
   componentWillMount() {
-    alert("componentWillMount")
     Axios.get("http://localhost:8080/api/schedule/get")
       .then(res => {
-        for (let index = 0; index < res.data.length; index++) {
-          res.data[index].startDate = getDateFormat(res.data[index].startDate);
-          res.data[index].endDate = getDateFormat(res.data[index].endDate);
-        }
         this.setState({data:res.data});
       })
       .catch(res => console.log(res))
@@ -513,43 +535,59 @@ export default class ScheduleComponent extends React.PureComponent {
           <EditingState
             onCommitChanges={this.commitChanges}
           />
+          <IntegratedEditing />
 
           <GroupingState
             grouping={grouping}
           />
 
           <DayView
-            name="1일 단위"
+            name="1일"
             startDayHour={9}
             endDayHour={19}
             intervalCount={1}
           />
           <DayView
-            name="2일 단위"
+            name="2일"
             startDayHour={9}
             endDayHour={19}
             intervalCount={2}
           />
           <DayView
-            name="3일 단위"
+            name="3일"
             startDayHour={9}
             endDayHour={19}
             intervalCount={3}
           />
           <DayView
-            name="4일 단위"
+            name="4일"
             startDayHour={9}
             endDayHour={19}
             intervalCount={4}
           />
 
+          <DayView
+            name="5일"
+            startDayHour={9}
+            endDayHour={19}
+            intervalCount={5}
+          />
+
           <WeekView
             startDayHour={9}
             endDayHour={19}
-            excludedDays={[0, 6]}
-            name="5일 단위"
+            name="일주일"
             timeTableCellComponent={WeekViewTimeTableCell}
             dayScaleCellComponent={WeekViewDayScaleCell}
+          />
+
+          <MonthView
+            name="한달"
+          />
+
+          <AllDayPanel
+            cellComponent={AllDayCell}
+            messages={AllDayPanelMessage}
           />
 
           <Appointments />
@@ -557,7 +595,7 @@ export default class ScheduleComponent extends React.PureComponent {
             data={resources}
           />
 
-          <IntegratedEditing />
+          
           <ConfirmationDialog
             messages={ConfirmationDialogMessage}
           />
