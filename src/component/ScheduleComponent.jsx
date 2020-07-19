@@ -484,10 +484,29 @@ export default class ScheduleComponent extends React.PureComponent {
       if (added) {
         const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, ...added }];
+
+        let key = startingAddedId;
+        let jsonObj = data[key]; //id = key 맞는걸로 넣게끔 나중에 변경
+
+        Axios.post('http://localhost:8080/api/schedule/post', jsonObj) 
+          .then(res => { 
+            console.log(res.data) 
+          })
+          .catch(res => console.log(res))
       }
       if (changed) {
         data = data.map(appointment => (
           changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+
+        let key = Object.keys(changed);
+        let jsonObj = data[key]; //id = key 맞는걸로 넣게끔 나중에 변경
+
+        Axios.post('http://localhost:8080/api/schedule/put', jsonObj) 
+          .then(res => { 
+            console.log(res.data) 
+          })
+          .catch(res => console.log(res))
+
       }
       if (deleted !== undefined) {
         Axios.get("http://localhost:8080/api/schedule/delete/id/"+deleted)
@@ -497,6 +516,8 @@ export default class ScheduleComponent extends React.PureComponent {
           .catch(res => console.log(res))
         data = data.filter(appointment => appointment.id !== deleted);
       }
+      // alert(Object.keys(data[0]));
+      // alert(Object.values(data[0]));
       return { data };
     });
   }
