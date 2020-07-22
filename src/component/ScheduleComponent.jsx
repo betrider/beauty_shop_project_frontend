@@ -488,7 +488,7 @@ export default class ScheduleComponent extends React.PureComponent {
         let key = startingAddedId;
         let jsonObj = data[key]; //id = key 맞는걸로 넣게끔 나중에 변경
 
-        Axios.post('http://localhost:8080/api/schedule/post', jsonObj) 
+        Axios.post('http://13.125.227.162:8080/api/schedule/post', jsonObj) 
           .then(res => { 
             console.log(res.data) 
           })
@@ -501,7 +501,7 @@ export default class ScheduleComponent extends React.PureComponent {
         let key = Object.keys(changed);
         let jsonObj = data[key]; //id = key 맞는걸로 넣게끔 나중에 변경
 
-        Axios.post('http://localhost:8080/api/schedule/put', jsonObj) 
+        Axios.post('http://13.125.227.162:8080/api/schedule/put', jsonObj) 
           .then(res => { 
             console.log(res.data) 
           })
@@ -509,7 +509,7 @@ export default class ScheduleComponent extends React.PureComponent {
 
       }
       if (deleted !== undefined) {
-        Axios.get("http://localhost:8080/api/schedule/delete/id/"+deleted)
+        Axios.get("http://13.125.227.162:8080/api/schedule/delete/id/"+deleted)
           .then(res => {
             
           })
@@ -523,7 +523,7 @@ export default class ScheduleComponent extends React.PureComponent {
   }
 
   componentWillMount() {
-    Axios.get("http://localhost:8080/api/schedule/get")
+    Axios.get("http://13.125.227.162:8080/api/schedule/get")
       .then(res => {
         this.setState({data:res.data});
       })
